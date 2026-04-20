@@ -16,6 +16,7 @@ const MyForm = () => {
     return (
         <div>
             <input 
+                name="message"
                 type="text" 
                 value={message} 
                 onChange={handleOnChange} 
