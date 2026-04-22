@@ -1,4 +1,3 @@
-// src/components/MyForm.jsx
 import { useState } from 'react';
 import { socket } from '../socket';
 
@@ -6,15 +5,16 @@ function MyForm() {
   const [value, setValue] = useState('');
 
   const onSubmit = (e) => {
-    e.preventDefault(); // IMPORTANTE: evita que la página se recargue
+    e.preventDefault(); // Evita que la página se refresque
+    
     if (value.trim()) {
+      console.log('Intentando enviar:', value); // Esto aparecerá en tu consola (F12)
       socket.emit('chat message', value);
       setValue('');
     }
   };
 
   return (
-    /* REVISA ESTA CLASE: debe ser my-form */
     <form onSubmit={onSubmit} className="my-form">
       <input 
         value={value} 
