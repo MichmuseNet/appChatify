@@ -1,5 +1,4 @@
 import { io } from 'socket.io-client';
-import { io } from 'socket.io-client';
 
 // Tu URL de Railway (asegúrate de que no tenga una "/" al final)
 const URL = 'https://serverchatify-production-f701.up.railway.app';
