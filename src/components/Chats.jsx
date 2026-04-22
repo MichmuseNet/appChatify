@@ -5,21 +5,14 @@ function Chats() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    // Escuchamos el evento de forma simple
-    const handleChatMessage = (msg, serverOffset) => {
-      console.log('Mensaje desde server:', msg);
-
-      // Intentamos guardar el offset, pero si falla, no dejamos que rompa la app
-      try {
-        if (socket && socket.auth) {
-          socket.auth.serverOffset = serverOffset;
-        }
-      } catch (err) {
-        console.warn("No se pudo guardar el offset, pero el mensaje se mostrará.");
-      }
-
-      // Añadimos el mensaje al estado para que se vea en pantalla
-      setMessages((prev) => [...prev, { content: msg, id: serverOffset }]);
+    // Escuchamos el mensaje. Cuando llega, actualizamos el estado de React.
+    const handleChatMessage = (msg, id) => {
+      console.log('✅ Mensaje recibido:', msg);
+      setMessages((prev) => {
+        // Evitamos duplicados por ID si el historial y el real-time se cruzan
+        if (prev.find(m => m.id === id)) return prev;
+        return [...prev, { content: msg, id: id }];
+      });
     };
 
     socket.on('chat message', handleChatMessage);
@@ -30,11 +23,21 @@ function Chats() {
   }, []);
 
   return (
-    <ul className="messages-list">
-      {messages.map((m, index) => (
-        <li key={m.id || index}>{m.content}</li>
-      ))}
-    </ul>
+    <div className="chats-container" style={{ padding: '10px' }}>
+      {messages.length === 0 && <p>No hay mensajes aún...</p>}
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        {messages.map((m) => (
+          <li key={m.id} style={{ 
+            background: '#f0f0f0', 
+            margin: '5px 0', 
+            padding: '8px', 
+            borderRadius: '5px' 
+          }}>
+            {m.content}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
