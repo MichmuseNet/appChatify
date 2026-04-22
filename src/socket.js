@@ -1,12 +1,8 @@
 import { io } from 'socket.io-client';
 
-// "undefined" means the URL will be computed from the `window.location` object
-const URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
+// La URL debe ser la de tu proyecto en Railway
+const URL = 'https://serverchatify-production-f701.up.railway.app'; 
 
 export const socket = io(URL, {
-    auth: {
-        serverOffset: 0,
-        ackTimeout: 10000,
-        retries: 3,
-    }
+  transports: ['websocket'] // <-- ESTA ES LA PIEZA QUE FALTA
 });
