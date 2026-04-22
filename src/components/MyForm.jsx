@@ -1,30 +1,22 @@
-import { socket } from "../socket";
-import React, { useState } from "react";
+import { useState } from 'react';
+import { socket } from '../socket';
 
-const MyForm = () => {
-    const [message,setMessage] = useState('');
-    
-    const handleOnChange = (e) => {
-        setMessage(e.target.value);
-    };
+function MyForm() {
+  const [value, setValue] = useState('');
 
-        const handleClick = (e) => {
-            e.preventDefault()
-            socket.emit('chat message', message)
-        }
-    
-    return (
-        <div>
-            <input 
-                name="message"
-                type="text" 
-                value={message} 
-                onChange={handleOnChange} 
-                placeholder="Escribe un mensaje..." 
-            />
-            <button onClick={handleClick}>Enviar</button> 
-        </div>
-    )
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (value) {
+      // Enviamos el mensaje al servidor
+      socket.emit('chat message', value);
+      setValue('');
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input value={value} onChange={e => setValue(e.target.value)} />
+      <button type="submit">Enviar</button>
+    </form>
+  );
 }
-
-export default MyForm

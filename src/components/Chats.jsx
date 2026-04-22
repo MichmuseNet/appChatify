@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 import { socket } from '../socket';
 
-
-const Chats = () => {
-  const[messages, setMessage] = useState([]);
+function Chats() {
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    socket.on('chat message', (msg,serverOffset) => {
-      console.log('Mensaje desde server ', msg);
-      socket.auth.serverOffset = serverOffset;
-      setMessage((prev) => [...prev,msg])
-    });
-    return() => {
-      socket.off('chat message')
-    }
+    // Escuchamos el mensaje que viene del servidor
+    const handleChatMessage = (msg, id) => {
+      setMessages((prev) => [...prev, { content: msg, id: id }]);
+    };
+
+    socket.on('chat message', handleChatMessage);
+
+    // Limpiamos el evento al desmontar el componente
+    return () => {
+      socket.off('chat message', handleChatMessage);
+    };
   }, []);
 
   return (
-    <>
-      <div>Chats</div>
-      {messages?.map((m) => (
-        <p>{m}</p>
+    <ul>
+      {messages.map((m) => (
+        <li key={m.id}>{m.content}</li>
       ))}
-    </>
+    </ul>
   );
 }
-
-export default Chats;
