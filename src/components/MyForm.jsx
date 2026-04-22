@@ -1,3 +1,4 @@
+// src/components/MyForm.jsx
 import { useState } from 'react';
 import { socket } from '../socket';
 
@@ -5,16 +6,15 @@ function MyForm() {
   const [value, setValue] = useState('');
 
   const onSubmit = (e) => {
-    e.preventDefault(); // Detiene el refresco de página
-    
-    if (value.trim()) { // .trim() evita enviar solo espacios
-      console.log('📤 Enviando mensaje:', value);
+    e.preventDefault(); // IMPORTANTE: evita que la página se recargue
+    if (value.trim()) {
       socket.emit('chat message', value);
       setValue('');
     }
   };
 
   return (
+    /* REVISA ESTA CLASE: debe ser my-form */
     <form onSubmit={onSubmit} className="my-form">
       <input 
         value={value} 
