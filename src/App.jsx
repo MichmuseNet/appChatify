@@ -11,12 +11,20 @@ import Chats from './components/Chats'
 function App() {
   useEffect(() => {
     const onConnect = () => {
-      console.log('Conectado');
+      console.log('✅ Conectado al servidor');
     }
+    
+    const onDisconnect = () => {
+      console.log('❌ Desconectado');
+    }
+
     socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
     return () => {
-      socket.off('disconnect')
+      // LIMPIEZA EXACTA: Esto evita que la conexión se vuelva loca
       socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
     }
   }, []);
 
@@ -32,7 +40,7 @@ function App() {
           <h1>Chatify</h1>
           <ManageConnection/>
         </header>
-        <section className='message-area'>
+        <section className='messages-area'>
           <Chats/>
         </section>
         <footer className='footer-form'>

@@ -5,13 +5,20 @@ function Chats() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    // Escuchamos el mensaje. Cuando llega, actualizamos el estado de React.
     const handleChatMessage = (msg, id) => {
       console.log('✅ Mensaje recibido:', msg);
+      
+      // Actualizamos el offset para que sea igual al de tu amiga (Estabilidad)
+      if (socket.auth) {
+        socket.auth.serverOffset = id;
+      }
+
       setMessages((prev) => {
-        // Evitamos duplicados por ID si el historial y el real-time se cruzan
-        if (prev.find(m => m.id === id)) return prev;
-        return [...prev, { content: msg, id: id }];
+        // Si el mensaje ya llegó (por ID), no lo repetimos
+        if (id && prev.find(m => m.id === id)) return prev;
+        
+        // Guardamos un objeto consistente
+        return [...prev, { content: msg, id: id || Date.now() }];
       });
     };
 
@@ -23,17 +30,18 @@ function Chats() {
   }, []);
 
   return (
-    <div className="chats-container" style={{ padding: '10px' }}>
+    <div className="messages-area"> {/* Asegúrate de que tenga la S como en el CSS */}
       {messages.length === 0 && <p>No hay mensajes aún...</p>}
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {messages.map((m) => (
-          <li key={m.id} style={{ 
-            background: '#f0f0f0', 
-            margin: '5px 0', 
-            padding: '8px', 
-            borderRadius: '5px' 
+        {messages.map((m, index) => (
+          <li key={m.id || index} style={{ 
+            background: '#4e5058', // Color tipo Discord
+            color: 'white',
+            margin: '8px 0', 
+            padding: '10px', 
+            borderRadius: '8px' 
           }}>
-            {m.content}
+            {typeof m === 'string' ? m : m.content}
           </li>
         ))}
       </ul>
