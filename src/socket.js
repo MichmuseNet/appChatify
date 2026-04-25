@@ -9,13 +9,13 @@ export const socket = io(URL, {
 });
 
 socket.on('connect', () => {
-  console.log('✅ Socket conectado:', socket.id);
+  console.log('Socket conectado:', socket.id);
 });
 
 socket.on('disconnect', (reason) => {
-  console.log('❌ Socket desconectado:', reason);
+  console.log('Socket desconectado:', reason);
 });
 
 socket.on('connect_error', (err) => {
-  console.error('🚨 Error de conexión socket:', err.message);
+  console.error('rror de conexión socket:', err.message);
 });
