@@ -5,6 +5,7 @@ import ManageConnection from './components/ManageConnection';
 import MyForm from './components/MyForm';
 import Channels from './components/Channels';
 import Chats from './components/Chats';
+import Users from './components/Users';
 
 function App() {
   const [currentRoom, setCurrentRoom] = useState('General');
@@ -55,6 +56,8 @@ function App() {
           <MyForm currentRoom={currentRoom} username={username} />
         </footer>
       </main>
+
+      <Users currentRoom={currentRoom} />
     </div>
   );
 }

@@ -1,42 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { socket } from '../socket';
 
 function ManageConnection() {
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
-    const handleConnect = () => {
+    const onConnect = () => {
+      console.log('Conectado desde ManageConnection');
       setIsConnected(true);
     };
 
-    const handleDisconnect = () => {
+    const onDisconnect = () => {
+      console.log('Desconectado desde ManageConnection');
       setIsConnected(false);
     };
 
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
 
     return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
     };
   }, []);
 
-  const handleConnectClick = () => {
-    socket.connect();
+  const handleConnect = () => {
+    if (!socket.connected) {
+      socket.connect();
+    }
   };
 
-  const handleDisconnectClick = () => {
-    socket.disconnect();
+  const handleDisconnect = () => {
+    if (socket.connected) {
+      socket.disconnect();
+    }
   };
 
   return (
-    <div>
-      <button onClick={handleConnectClick} disabled={isConnected}>
+    <div className="connection-buttons">
+      <button
+        className="connect-button"
+        onClick={handleConnect}
+        disabled={isConnected}
+      >
         Connect
       </button>
 
-      <button onClick={handleDisconnectClick} disabled={!isConnected}>
+      <button
+        className="disconnect-button"
+        onClick={handleDisconnect}
+        disabled={!isConnected}
+      >
         Disconnect
       </button>
     </div>
