@@ -1,5 +1,3 @@
-import React from 'react';
-
 function Channels({ currentRoom, setRoom }) {
   const rooms = [
     { id: 'general', name: 'General' },
@@ -10,11 +8,18 @@ function Channels({ currentRoom, setRoom }) {
 
   return (
     <div className="channels-container">
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+      <ul
+        style={{
+          listStyle: 'none',
+          padding: 0,
+          margin: 0
+        }}
+      >
         {rooms.map((room) => (
           <li
             key={room.id}
-            onClick={() => setRoom(room.name)} 
+            onClick={() => setRoom(room.name)}
+            className={currentRoom === room.name ? 'channel-active' : ''}
             style={{
               padding: '12px 16px',
               margin: '4px 8px',
@@ -27,15 +32,17 @@ function Channels({ currentRoom, setRoom }) {
               display: 'flex',
               alignItems: 'center'
             }}
-            className={currentRoom === room.name ? 'channel-active' : ''}
           >
-            <span style={{ 
-              marginRight: '8px', 
-              fontSize: '20px', 
-              color: currentRoom === room.name ? '#ffffff' : '#6a6d71' 
-            }}>
+            <span
+              style={{
+                marginRight: '8px',
+                fontSize: '20px',
+                color: currentRoom === room.name ? '#ffffff' : '#6a6d71'
+              }}
+            >
               #
             </span>
+
             {room.name}
           </li>
         ))}

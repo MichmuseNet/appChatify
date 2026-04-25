@@ -1,26 +1,46 @@
-import React from "react";
+import { useState, useEffect } from 'react';
 import { socket } from '../socket';
 
-const ManageConnection = () => {
-    const handleConnection = (con) => {
-        console.log({ con });
-        switch (con){
-            case 'on':
-                socket.connect();
-                break
-            case 'off':
-                socket.disconnect();
-                break
-            default:
-                break;
-        }
+function ManageConnection() {
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    const handleConnect = () => {
+      setIsConnected(true);
     };
-return(
+
+    const handleDisconnect = () => {
+      setIsConnected(false);
+    };
+
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+
+    return () => {
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+    };
+  }, []);
+
+  const handleConnectClick = () => {
+    socket.connect();
+  };
+
+  const handleDisconnectClick = () => {
+    socket.disconnect();
+  };
+
+  return (
     <div>
-        <button onClick={()=>handleConnection ('on')}>Connect</button>
-        <button onClick={()=>handleConnection ('off')}>Disconnect</button>
+      <button onClick={handleConnectClick} disabled={isConnected}>
+        Connect
+      </button>
+
+      <button onClick={handleDisconnectClick} disabled={!isConnected}>
+        Disconnect
+      </button>
     </div>
-)
+  );
 }
 
-export default ManageConnection
+export default ManageConnection;

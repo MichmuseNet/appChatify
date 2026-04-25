@@ -12,7 +12,6 @@ function Chats({ currentRoom }) {
       setMessages(history);
     };
 
-    // 3. Escuchar nuevos mensajes
     const handleChatMessage = (msgData) => {
       console.log('Nuevo mensaje recibido:', msgData);
 
@@ -33,32 +32,60 @@ function Chats({ currentRoom }) {
   return (
     <div className="messages-area">
       {messages.length === 0 && (
-        <p style={{ color: '#8e9297', textAlign: 'center' }}>
+        <p
+          style={{
+            color: '#8e9297',
+            textAlign: 'center'
+          }}
+        >
           No hay mensajes en #{currentRoom} aún...
         </p>
       )}
-      
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+
+      <ul
+        style={{
+          listStyle: 'none',
+          padding: 0,
+          margin: 0
+        }}
+      >
         {messages.map((m, index) => (
-          <li key={m.id || index} style={{ 
-            background: '#4e5058', 
-            color: 'white',
-            margin: '8px 0', 
-            padding: '10px', 
-            borderRadius: '8px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <span style={{ 
-              fontSize: '0.75rem', 
-              color: '#00aff4', 
-              fontWeight: 'bold',
-              marginBottom: '4px' 
-            }}>
+          <li
+            key={m.id || index}
+            style={{
+              background: '#4e5058',
+              color: 'white',
+              margin: '8px 0',
+              padding: '10px',
+              borderRadius: '8px',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <span
+              style={{
+                fontSize: '0.75rem',
+                color: '#00aff4',
+                fontWeight: 'bold',
+                marginBottom: '4px'
+              }}
+            >
               {m.username || 'Anónimo'}
             </span>
-            
+
             <span>{m.content}</span>
+
+            {m.created_at && (
+              <small
+                style={{
+                  color: '#b9bbbe',
+                  marginTop: '4px',
+                  fontSize: '0.7rem'
+                }}
+              >
+                {new Date(m.created_at).toLocaleString()}
+              </small>
+            )}
           </li>
         ))}
       </ul>
