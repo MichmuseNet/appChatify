@@ -6,26 +6,34 @@ function MyForm({ currentRoom, username }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    
     if (value.trim()) {
-      // ENVIAR COMO OBJETO (Crucial para el servidor)
-      socket.emit('chat message', {
+      const messageData = {
         content: value,
         username: username || 'Anónimo',
         room: currentRoom
-      });
+      };
+
+      console.log('Enviando:', messageData);
+      socket.emit('chat message', messageData);
       setValue('');
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="footer-form">
+    <form onSubmit={onSubmit} className="footer-form"> 
       <input 
+        className="message-input" 
         value={value} 
         onChange={e => setValue(e.target.value)} 
-        placeholder={`Enviar mensaje a #${currentRoom}`}
+        placeholder={`Enviar mensaje a #${currentRoom}...`}
+        autoComplete="off"
       />
-      <button type="submit">Enviar</button>
+      <button type="submit" className="send-button">
+        Enviar
+      </button>
     </form>
   );
 }
+
 export default MyForm;

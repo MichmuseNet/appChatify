@@ -9,7 +9,7 @@ body, html, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-color: #36393f; /* Fondo Morado Grisáceo Principal */
+  background-color: #36393f; 
   color: #dcddde;
 }
 
@@ -223,4 +223,29 @@ body, html, #root {
 
 .messages-area::-webkit-scrollbar-thumb:hover {
   background: #18191c;
+}
+.footer-form {
+  display: flex;
+  padding: 20px;
+  background: #313338; 
+}
+
+.footer-form input {
+  flex: 1;
+  background: #383a40;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+}
+
+.footer-form button {
+  background: #5865f2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
 }
