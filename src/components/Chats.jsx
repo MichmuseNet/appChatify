@@ -1,47 +1,46 @@
 import { useState, useEffect } from 'react';
 import { socket } from '../socket';
 
-function Chats() {
+function Chats({ currentRoom }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const handleChatMessage = (msg, id) => {
-      console.log('✅ Mensaje recibido:', msg);
-      
-      // Actualizamos el offset para que sea igual al de tu amiga (Estabilidad)
-      if (socket.auth) {
-        socket.auth.serverOffset = id;
-      }
+    setMessages([]);
 
-      setMessages((prev) => {
-        // Si el mensaje ya llegó (por ID), no lo repetimos
-        if (id && prev.find(m => m.id === id)) return prev;
-        
-        // Guardamos un objeto consistente
-        return [...prev, { content: msg, id: id || Date.now() }];
-      });
+    const handleLoadMessages = (history) => {
+      setMessages(history);
     };
 
+    const handleChatMessage = (msgData) => {
+
+      if (msgData.room === currentRoom) {
+        setMessages((prev) => [...prev, msgData]);
+      }
+    };
+
+    socket.on('load messages', handleLoadMessages);
     socket.on('chat message', handleChatMessage);
 
     return () => {
+      socket.off('load messages', handleLoadMessages);
       socket.off('chat message', handleChatMessage);
     };
-  }, []);
+  }, [currentRoom]); 
 
   return (
-    <div className="messages-area"> {/* Asegúrate de que tenga la S como en el CSS */}
-      {messages.length === 0 && <p>No hay mensajes aún...</p>}
+    <div className="messages-area">
+      {messages.length === 0 && <p>No hay mensajes en #{currentRoom} aún...</p>}
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {messages.map((m, index) => (
-          <li key={m.id || index} style={{ 
-            background: '#4e5058', // Color tipo Discord
+        {messages.map((m) => (
+          <li key={m.id} style={{ 
+            background: '#4e5058', 
             color: 'white',
             margin: '8px 0', 
             padding: '10px', 
             borderRadius: '8px' 
           }}>
-            {typeof m === 'string' ? m : m.content}
+            <small style={{ color: '#b5bac1', display: 'block' }}>{m.username}</small>
+            {m.content}
           </li>
         ))}
       </ul>

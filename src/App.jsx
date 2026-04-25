@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { socket } from './socket';
 import ManageConnection from './components/ManageConnection';
@@ -9,49 +9,36 @@ import Chats from './components/Chats'
 
 
 function App() {
-  useEffect(() => {
-    const onConnect = () => {
-      console.log('✅ Conectado al servidor');
-    }
-    
-    const onDisconnect = () => {
-      console.log('❌ Desconectado');
-    }
+  const [currentRoom, setCurrentRoom] = useState('General');
+  const [username] = useState('Usuario-' + Math.floor(Math.random() * 100));
 
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
+  useEffect(() => {
+    socket.emit('join room', { username, room: currentRoom });
 
     return () => {
-      // LIMPIEZA EXACTA: Esto evita que la conexión se vuelva loca
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
+      socket.emit('leave room', { room: currentRoom });
     }
-  }, []);
+  }, [currentRoom, username]);
 
   return (
     <div className='app-container'>
       <aside className='sidebar channels-sidebar'>
         <h2>Channels</h2>
-        <Channels/>
+        <Channels currentRoom={currentRoom} setRoom={setCurrentRoom} />
       </aside>
 
       <main className='chat-main'>
         <header className='chat-header'>
-          <h1>Chatify</h1>
+          <h1>Chatify - #{currentRoom}</h1>
           <ManageConnection/>
         </header>
         <section className='messages-area'>
-          <Chats/>
+          <Chats currentRoom={currentRoom} />
         </section>
         <footer className='footer-form'>
-          <MyForm/>
+          <MyForm currentRoom={currentRoom} username={username} />
         </footer>
       </main>
-
-      <aside className='sidebar users-sidebar'>
-        <h2>Users</h2>
-        <Users/>
-      </aside>
     </div>
   );
 }

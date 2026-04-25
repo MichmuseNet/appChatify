@@ -1,9 +1,8 @@
-/* --- RESET BÁSICO (Para que todo ocupe el espacio correcto) --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'GG Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Tipografía tipo Discord */
+  font-family: 'GG Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 body, html, #root {
@@ -11,24 +10,22 @@ body, html, #root {
   width: 100%;
   overflow: hidden;
   background-color: #36393f; /* Fondo Morado Grisáceo Principal */
-  color: #dcddde; /* Texto Gris Claro */
+  color: #dcddde;
 }
 
-/* --- CONTENEDOR PRINCIPAL (Layout) --- */
 .app-container {
   display: flex;
   height: 100vh;
   width: 100vw;
 }
 
-/* --- BARRAS LATERALES (Sidebar) --- */
 .sidebar {
-  width: 260px; /* Un poco más ancha, como Discord */
-  background-color: #2f3136; /* Morado Grisáceo más oscuro */
+  width: 260px;
+  background-color: #2f3136;
   display: flex;
   flex-direction: column;
   padding: 15px;
-  border-right: 1px solid #202225; /* Borde muy sutil */
+  border-right: 1px solid #202225;
 }
 
 .users-sidebar {
@@ -36,17 +33,15 @@ body, html, #root {
   border-left: 1px solid #202225;
 }
 
-/* Títulos de sección (# GENERAL, USUARIOS) */
 .sidebar h2 {
   margin-bottom: 15px;
-  color: #8e9297; /* Gris medio */
+  color: #8e9297;
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.5px;
   font-weight: 700;
 }
 
-/* Estilo para los canales (# general) */
 .sidebar h3 {
   color: #8e9297;
   font-size: 1rem;
@@ -58,11 +53,10 @@ body, html, #root {
 }
 
 .sidebar h3:hover {
-  background-color: #393c43; /* Hover sutil */
+  background-color: #393c43;
   color: #fff;
 }
 
-/* Estilo para los usuarios (• Usuario 1) */
 .sidebar p {
   color: #b9bbbe;
   font-size: 0.95rem;
@@ -76,20 +70,18 @@ body, html, #root {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background-color: #3ba55d; /* Punto verde de "En línea" */
+  background-color: #3ba55d;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-/* --- ÁREA PRINCIPAL DEL CHAT --- */
 .chat-main {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  background-color: #36393f; /* Fondo Morado Grisáceo Principal */
+  background-color: #36393f;
 }
 
-/* Encabezado (# general, Botones) */
 .chat-header {
   padding: 12px 20px;
   background-color: #36393f;
@@ -97,7 +89,7 @@ body, html, #root {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Sombra sutil */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
 }
 
 .chat-header h1 {
@@ -106,7 +98,6 @@ body, html, #root {
   font-weight: 600;
 }
 
-/* Botones de Conexión */
 .chat-header button {
   margin-left: 8px;
   padding: 6px 16px;
@@ -118,9 +109,8 @@ body, html, #root {
   transition: background-color 0.2s;
 }
 
-/* Botón "Connect" */
 .chat-header button:first-of-type {
-  background-color: #3ba55d; /* Verde Discord */
+  background-color: #3ba55d; 
   color: white;
 }
 
@@ -128,9 +118,8 @@ body, html, #root {
   background-color: #2d7d46;
 }
 
-/* Botón "Disconnect" */
 .chat-header button:last-of-type {
-  background-color: #4f545c; /* Gris oscuro */
+  background-color: #4f545c; 
   color: #dcddde;
 }
 
@@ -138,27 +127,24 @@ body, html, #root {
   background-color: #686d73;
 }
 
-/* --- ÁREA DE MENSAJES (Crucial) --- */
 .messages-area {
   flex-grow: 1;
-  padding: 20px 25px; /* Más espacio lateral */
+  padding: 20px 25px;
   overflow-y: auto;
   display: flex;
-  flex-direction: column-reverse; /* ¡CRUCIAL! Los mensajes nuevos aparecen abajo y el scroll se mantiene abajo */
+  flex-direction: column-reverse; 
 }
 
-/* Estilo para la lista de mensajes (ul) */
 .messages-area ul {
   list-style: none;
   display: flex;
   flex-direction: column;
 }
 
-/* Estilo para CADA mensaje (li) */
 .messages-area li {
-  background-color: #36393f; /* Mismo fondo que el chat, como Discord */
+  background-color: #36393f; 
   color: #dcddde;
-  margin: 1px 0; /* Casi pegados */
+  margin: 1px 0; 
   padding: 8px 10px;
   border-radius: 4px;
   line-height: 1.4;
@@ -167,10 +153,9 @@ body, html, #root {
 }
 
 .messages-area li:hover {
-  background-color: #32353a; /* Hover muy sutil al pasar el mouse */
+  background-color: #32353a; 
 }
 
-/* Texto decorativo de "No hay mensajes" */
 .messages-area > p {
   color: #72767d;
   font-style: italic;
@@ -178,43 +163,39 @@ body, html, #root {
   margin-top: 20px;
 }
 
-/* --- FORMULARIO DE ENVÍO (Footer) --- */
 .footer-form {
   padding: 20px;
   background-color: #36393f;
 }
 
-/* El formulario en sí */
 .my-form {
   display: flex;
   align-items: center;
-  background-color: #40444b; /* Gris más claro para el input */
+  background-color: #40444b; 
   border-radius: 8px;
   padding: 2px 15px;
 }
 
-/* Input de texto */
 .my-form input {
   flex-grow: 1;
   padding: 12px 10px;
   border: none;
-  background-color: transparent; /* Fondo transparente para usar el del form */
+  background-color: transparent; 
   color: #dcddde;
   outline: none;
   font-size: 0.95rem;
 }
 
 .my-form input::placeholder {
-  color: #72767d; /* Gris placeholder */
+  color: #72767d; 
 }
 
-/* Botón Enviar */
 .my-form button {
   padding: 10px 20px;
   margin-left: 10px;
   border-radius: 3px;
   border: none;
-  background-color: #5865f2; /* Azul "Blurple" de Discord */
+  background-color: #5865f2;
   color: white;
   cursor: pointer;
   font-weight: 600;
@@ -226,13 +207,12 @@ body, html, #root {
   background-color: #4752c4;
 }
 
-/* Estilo para el scrollbar (para que parezca Discord) */
 .messages-area::-webkit-scrollbar {
   width: 8px;
 }
 
 .messages-area::-webkit-scrollbar-track {
-  background: #2e3136; 
+  background: #2e3136;
   border-radius: 4px;
 }
 
@@ -242,5 +222,5 @@ body, html, #root {
 }
 
 .messages-area::-webkit-scrollbar-thumb:hover {
-  background: #18191c; 
+  background: #18191c;
 }
