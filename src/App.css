@@ -14,23 +14,24 @@ body, html, #root {
 }
 
 .app-container {
-  display: flex;
+  display: grid;
+  /* Columna 1 (Users): 220px | Columna 2 (Chat): Flexible | Columna 3 (Channels): 260px */
+  grid-template-columns: 220px 1fr 260px; 
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
-.sidebar {
-  width: 260px;
-  background-color: #2f3136;
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border-right: 1px solid #202225;
+/* Esto asegura que las columnas laterales no se encojan */
+.sidebar, .users-sidebar {
+  height: 100vh;
+  overflow-y: auto;
 }
 
-.users-sidebar {
-  border-right: none;
-  border-left: 1px solid #202225;
+/* Ajuste opcional para que el área de mensajes no empuje el layout */
+.chat-main {
+  min-width: 0; /* Evita que el chat rompa el grid si hay texto largo */
+  height: 100vh;
 }
 
 .sidebar h2 {
@@ -252,7 +253,7 @@ body, html, #root {
 .users-sidebar {
   width: 220px;
   background-color: #2b2d31;
-  border-left: 1px solid #1f2023;
+  border-right: 1px solid #1f2023; 
   padding: 16px;
   color: white;
 }
@@ -319,4 +320,89 @@ body, html, #root {
 .disconnect-button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; 
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background-color: #313338;
+  padding: 32px;
+  border-radius: 8px;
+  width: 440px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
+  color: #f2f3f5;
+  border: 1px solid #1e1f22;
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.modal-content p {
+  color: #b5bac1;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-content input {
+  background-color: #1e1f22; 
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  color: #dbdee1;
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+.modal-content input:focus {
+  border-color: #5865f2; 
+}
+
+.modal-content button {
+  background-color: #5865f2; 
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modal-content button:hover {
+  background-color: #4752c4;
+}
+
+.waiting-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #8e9297;
+  font-style: italic;
 }
