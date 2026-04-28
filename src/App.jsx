@@ -13,6 +13,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  // Funciones para persistencia de nombre por sala
   const getUsernameForRoom = (room) => {
     const savedNames = localStorage.getItem('chatify_usernames');
     const namesMap = savedNames ? JSON.parse(savedNames) : {};
@@ -26,6 +27,7 @@ function App() {
     localStorage.setItem('chatify_usernames', JSON.stringify(namesMap));
   };
 
+  // Efecto para verificar si ya existe un nombre al cambiar de sala
   useEffect(() => {
     const name = getUsernameForRoom(currentRoom);
     if (!name) {
@@ -43,6 +45,7 @@ function App() {
     setShowModal(false);
   };
 
+  // Efecto para la conexión de Socket.io
   useEffect(() => {
     if (!username) return;
 
@@ -61,13 +64,16 @@ function App() {
     socket.on('connect', joinCurrentRoom);
 
     return () => {
-      socket.emit('leave room', { room: currentRoom });
       socket.off('connect', joinCurrentRoom);
+      if (socket.connected) {
+        socket.emit('leave room', { room: currentRoom, username: username });
+      }
     };
   }, [currentRoom, username]);
 
   return (
     <div className="app-container">
+      {/* Modal de nombre - Aparece encima de todo */}
       {showModal && (
         <UsernamePrompt room={currentRoom} onSave={handleSaveName} />
       )}
@@ -78,7 +84,7 @@ function App() {
       {/* COLUMNA 2: CHAT (CENTRO) */}
       <main className='chat-main'>
         <header className='chat-header'>
-          <h1>#{currentRoom}</h1>
+          <h1>Chatify - #{currentRoom}</h1>
           <ManageConnection />
         </header>
 
