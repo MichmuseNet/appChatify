@@ -11,39 +11,37 @@ import UsernamePrompt from './components/UsernamePrompt';
 function App() {
   const [currentRoom, setCurrentRoom] = useState('General');
   const [username, setUsername] = useState('');
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
-  const getUsernameForRoom=(room)=>{
+  const getUsernameForRoom = (room) => {
     const savedNames = localStorage.getItem('chatify_usernames');
     const namesMap = savedNames ? JSON.parse(savedNames) : {};
-
-    return namesMap[room]||null;
+    return namesMap[room] || null;
   };
 
-  const saveUsernameForRoom = (room, newName) =>{
+  const saveUsernameForRoom = (room, newName) => {
     const savedNames = localStorage.getItem('chatify_usernames');
     const namesMap = savedNames ? JSON.parse(savedNames) : {};
-
     namesMap[room] = newName;
-    localStorage.setItem('chatify_usernames', JSON.stringify(namesMap))
-  }
+    localStorage.setItem('chatify_usernames', JSON.stringify(namesMap));
+  };
 
   useEffect(() => {
-    const name= getUsernameForRoom (currentRoom)
-    if (!name){
-      setUsername('')
-      setShowModal(true)
+    const name = getUsernameForRoom(currentRoom);
+    if (!name) {
+      setUsername('');
+      setShowModal(true);
     } else {
-      setUsername(name)
-      setShowModal(false)
+      setUsername(name);
+      setShowModal(false);
     }
   }, [currentRoom]);
 
-  const handleSaveName= (newName) => {
+  const handleSaveName = (newName) => {
     saveUsernameForRoom(currentRoom, newName);
     setUsername(newName);
-    setShowModal(false)
-  }
+    setShowModal(false);
+  };
 
   useEffect(() => {
     if (!username) return;
@@ -63,42 +61,48 @@ function App() {
     socket.on('connect', joinCurrentRoom);
 
     return () => {
-          socket.emit('leave room', { room: currentRoom });
-          socket.off('connect', joinCurrentRoom);
-        };
+      socket.off('connect', joinCurrentRoom);
+      if (socket.connected) {
+        socket.emit('leave room', { room: currentRoom, username: username });
+      }
+    };
   }, [currentRoom, username]);
 
   return (
     <div className="app-container">
       {showModal && (
-        <UsernamePrompt room={currentRoom} onSave={handleSaveName}/>
+        <UsernamePrompt room={currentRoom} onSave={handleSaveName} />
       )}
-      <aside className='sidebar channels-sidebar'>
-        <h2>Channels</h2>
-        <Channels currentRoom={currentRoom} setRoom={setCurrentRoom}/>
-      </aside>
+      
+
+      <Users currentRoom={currentRoom} />
+
       <main className='chat-main'>
         <header className='chat-header'>
-          <h1>Chatify-#{currentRoom}</h1>
-          <ManageConnection/>
+          <h1>Chatify - #{currentRoom}</h1>
+          <ManageConnection />
         </header>
 
-      {username ? (
-        <>
-        <section className='messages-area'>
-          <Chats currentRoom={currentRoom}/>
-        </section>
-        <footer className='footer-form'>
-          <MyForm currentRoom={currentRoom} username={username}/>
-        </footer>
-        </>
+        {username ? (
+          <>
+            <section className='messages-area'>
+              <Chats currentRoom={currentRoom} />
+            </section>
+            <footer className='footer-form'>
+              <MyForm currentRoom={currentRoom} username={username} />
+            </footer>
+          </>
         ) : ( 
           <div className='waiting-screen'>
             <p>Please set a username to start the chat</p>
           </div>
         )}
       </main>
-      <Users currentRoom={currentRoom}/>
+
+      <aside className='sidebar channels-sidebar'>
+        <h2>Channels</h2>
+        <Channels currentRoom={currentRoom} setRoom={setCurrentRoom} />
+      </aside>
     </div>
   );
 }

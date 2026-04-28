@@ -14,23 +14,22 @@ body, html, #root {
 }
 
 .app-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 220px 1fr 260px; 
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
-.sidebar {
-  width: 260px;
-  background-color: #2f3136;
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border-right: 1px solid #202225;
+.sidebar, .users-sidebar {
+  height: 100vh;
+  overflow-y: auto;
 }
 
-.users-sidebar {
-  border-right: none;
-  border-left: 1px solid #202225;
+
+.chat-main {
+  min-width: 0; 
+  height: 100vh;
 }
 
 .sidebar h2 {
@@ -163,10 +162,6 @@ body, html, #root {
   margin-top: 20px;
 }
 
-.footer-form {
-  padding: 20px;
-  background-color: #36393f;
-}
 
 .my-form {
   display: flex;
@@ -227,7 +222,8 @@ body, html, #root {
 .footer-form {
   display: flex;
   padding: 20px;
-  background: #313338; 
+  background-color: #313338; 
+  border-top: 1px solid #202225; 
 }
 
 .footer-form input {
@@ -249,19 +245,37 @@ body, html, #root {
   cursor: pointer;
   font-weight: bold;
 }
-.users-sidebar {
-  width: 220px;
+
+.sidebar, .users-sidebar {
+  height: 100vh;
+  overflow-y: auto;
   background-color: #2b2d31;
-  border-left: 1px solid #1f2023;
   padding: 16px;
-  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-.users-sidebar h2 {
-  font-size: 0.85rem;
+.users-sidebar {
+  width: 220px;
+  min-width: 220px;
+  border-right: 1px solid #1f2023; 
+}
+
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  border-left: 1px solid #1f2023; 
+}
+
+
+.sidebar h2, .users-sidebar h2 {
+  font-size: 0.75rem;
   text-transform: uppercase;
-  color: #b5bac1;
+  color: #8e9297;
   margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 .empty-users {
