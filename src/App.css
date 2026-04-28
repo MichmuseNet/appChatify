@@ -15,22 +15,20 @@ body, html, #root {
 
 .app-container {
   display: grid;
-  /* Columna 1 (Users): 220px | Columna 2 (Chat): Flexible | Columna 3 (Channels): 260px */
   grid-template-columns: 220px 1fr 260px; 
   height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
 
-/* Esto asegura que las columnas laterales no se encojan */
 .sidebar, .users-sidebar {
   height: 100vh;
   overflow-y: auto;
 }
 
-/* Ajuste opcional para que el área de mensajes no empuje el layout */
+
 .chat-main {
-  min-width: 0; /* Evita que el chat rompa el grid si hay texto largo */
+  min-width: 0; 
   height: 100vh;
 }
 
@@ -225,7 +223,7 @@ body, html, #root {
   display: flex;
   padding: 20px;
   background-color: #313338; 
-  border-top: 1px solid #202225; /* Un pequeño borde para separar del chat */
+  border-top: 1px solid #202225; 
 }
 
 .footer-form input {
@@ -247,7 +245,7 @@ body, html, #root {
   cursor: pointer;
   font-weight: bold;
 }
-/* Estilo base para AMBOS sidebars */
+
 .sidebar, .users-sidebar {
   height: 100vh;
   overflow-y: auto;
@@ -257,21 +255,20 @@ body, html, #root {
   flex-direction: column;
 }
 
-/* Ajustes específicos para la columna de USUARIOS (Izquierda) */
 .users-sidebar {
   width: 220px;
   min-width: 220px;
-  border-right: 1px solid #1f2023; /* Borde a la derecha para separar del chat */
+  border-right: 1px solid #1f2023; 
 }
 
-/* Ajustes específicos para la columna de CANALES (Derecha) */
+
 .sidebar {
   width: 260px;
   min-width: 260px;
-  border-left: 1px solid #1f2023; /* Borde a la izquierda para separar del chat */
+  border-left: 1px solid #1f2023; 
 }
 
-/* Títulos de ambas columnas */
+
 .sidebar h2, .users-sidebar h2 {
   font-size: 0.75rem;
   text-transform: uppercase;
