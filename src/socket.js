@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 
-const URL = 'https://serverchatify-production-f701.up.railway.app';
+// Usamos la variable de entorno de Vite, y si no existe (producción), la de Railway
+const URL = import.meta.env.VITE_BACKEND_URL || 'https://serverchatify-production-f701.up.railway.app';
 
 export const socket = io(URL, {
   autoConnect: true,
