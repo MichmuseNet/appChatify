@@ -16,7 +16,8 @@ function MyForm({ currentRoom, username }) {
       const messageData = {
         content: value.trim(),
         username: username || 'Anónimo',
-        room: currentRoom
+        room: currentRoom,
+        created_at: new Date().toISOString()
       };
 
       console.log('Enviando mensaje:', messageData);

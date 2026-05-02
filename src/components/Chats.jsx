@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { socket } from '../socket';
 
-function Chats({ currentRoom }) {
+function Chats({ currentRoom, currentUsername }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,6 @@ function Chats({ currentRoom }) {
 
     const handleChatMessage = (msgData) => {
       console.log('Nuevo mensaje recibido:', msgData);
-
       if (msgData.room === currentRoom) {
         setMessages((prev) => [...prev, msgData]);
       }
@@ -32,62 +31,62 @@ function Chats({ currentRoom }) {
   return (
     <div className="messages-area">
       {messages.length === 0 && (
-        <p
-          style={{
-            color: '#8e9297',
-            textAlign: 'center'
-          }}
-        >
+        <p style={{ color: '#8e9297', textAlign: 'center' }}>
           No hay mensajes en #{currentRoom} aún...
         </p>
       )}
 
-      <ul
-        style={{
-          listStyle: 'none',
-          padding: 0,
-          margin: 0
-        }}
-      >
-        {messages.map((m, index) => (
-          <li
-            key={m.id || index}
-            style={{
-              background: '#4e5058',
-              color: 'white',
-              margin: '8px 0',
-              padding: '10px',
-              borderRadius: '8px',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <span
+      <ul>
+        {messages.map((m, index) => {
+          const isMe = m.username === currentUsername;
+
+          return (
+            <li
+              key={m.id || index}
               style={{
-                fontSize: '0.75rem',
-                color: '#00aff4',
-                fontWeight: 'bold',
-                marginBottom: '4px'
+                background: isMe ? '#5865f2' : '#4e5058',
+                color: 'white',
+                margin: '4px 0',
+                padding: '10px',
+                borderRadius: '8px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignSelf: isMe ? 'flex-end' : 'flex-start',
+                maxWidth: '75%',
+                wordBreak: 'break-word'
               }}
             >
-              {m.username || 'Anónimo'}
-            </span>
-
-            <span>{m.content}</span>
-
-            {m.created_at && (
-              <small
+              <span
                 style={{
-                  color: '#b9bbbe',
-                  marginTop: '4px',
-                  fontSize: '0.7rem'
+                  fontSize: '0.75rem',
+                  color: isMe ? '#d1d5ff' : '#00aff4',
+                  fontWeight: 'bold',
+                  marginBottom: '2px'
                 }}
               >
-                {new Date(m.created_at).toLocaleString()}
-              </small>
-            )}
-          </li>
-        ))}
+                {isMe ? 'Tú' : (m.username || 'Anónimo')}
+              </span>
+
+              <span>{m.content}</span>
+
+              {m.created_at && (
+                <small
+                  style={{
+                    color: isMe ? '#e0e0e0' : '#b9bbbe',
+                    marginTop: '4px',
+                    fontSize: '0.65rem',
+                    textAlign: 'right'
+                  }}
+                >
+                  {new Date(m.created_at).toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </small>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
