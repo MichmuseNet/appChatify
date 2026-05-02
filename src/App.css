@@ -419,3 +419,28 @@ body, html, #root {
   color: #8e9297;
   font-style: italic;
 }
+
+.waiting-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #8e9297;
+  font-style: italic;
+}
+
+
+.typing-container {
+  height: 24px;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  background-color: #36393f;
+}
+
+.typing-text {
+  color: #b9bbbe;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+}
