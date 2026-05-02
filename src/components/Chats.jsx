@@ -93,6 +93,3 @@ function Chats({ currentRoom, currentUsername }) {
 }
 
 export default Chats;
-/*
-por nomas
-*/
