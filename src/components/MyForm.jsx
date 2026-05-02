@@ -10,40 +10,64 @@ function MyForm({ currentRoom, username }) {
 
     socket.emit('typing', { 
       username: username || 'Anónimo', 
-      room: currentRoom 
+      room: currentRoom,
+      senderId: socket.id 
     });
 
-    if (window.typingTimeout) clearTimeout(window.typingTimeout);
+    if (window.typingTimeout) {
+      clearTimeout(window.typingTimeout);
+    }
 
     window.typingTimeout = setTimeout(() => {
-      socket.emit('stop_typing', { room: currentRoom });
+      socket.emit('stop_typing', { 
+        room: currentRoom,
+        senderId: socket.id 
+      });
     }, 3000);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+    
+    if (!socket.connected) return;
+
     if (value.trim()) {
-      socket.emit('chat message', {
+      const messageData = {
         content: value.trim(),
         username: username || 'Anónimo',
         room: currentRoom
-      });
+      };
+
+      socket.emit('chat message', messageData);
       setValue('');
-      socket.emit('stop_typing', { room: currentRoom });
-      if (window.typingTimeout) clearTimeout(window.typingTimeout);
+
+      
+      socket.emit('stop_typing', { 
+        room: currentRoom,
+        senderId: socket.id 
+      });
+      
+      if (window.typingTimeout) {
+        clearTimeout(window.typingTimeout);
+      }
     }
   };
 
   return (
     <form onSubmit={onSubmit} className="footer-form">
       <input
+        name="message"  
+        id="message-input"
         className="message-input"
         value={value}
         onChange={handleInputChange} 
         placeholder={`Enviar mensaje a #${currentRoom}...`}
         autoComplete="off"
       />
-      <button type="submit" className="send-button">Enviar</button>
+
+      <button type="submit" className="send-button">
+        Enviar
+      </button>
     </form>
   );
 }

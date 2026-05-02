@@ -10,20 +10,32 @@ function Chats({ currentRoom }) {
     setTypingUser(null); 
 
     const handleLoadMessages = (history) => setMessages(history);
+    
     const handleChatMessage = (msgData) => {
-      if (msgData.room === currentRoom) setMessages((prev) => [...prev, msgData]);
-    };
-
-    const handleUserTyping = (data) => {
-      const savedNames = JSON.parse(localStorage.getItem('chatify_usernames') || '{}');
-      const myName = savedNames[currentRoom];
-      if (data.room === currentRoom && data.username !== myName) {
-        setTypingUser(data.username);
+      if (msgData.room === currentRoom) {
+        setMessages((prev) => [...prev, msgData]);
       }
     };
 
+    const handleUserTyping = (data) => {
+  // 1. Ver si el evento llega
+  console.log("¡RECIBÍ SEÑAL!", data);
+
+  // 2. Ver qué tenemos para comparar
+  console.log("Sala recibida:", data.room, "| Sala actual:", currentRoom);
+  console.log("ID recibido:", data.senderId, "| Mi ID:", socket.id);
+
+  // 3. Forzar el cartel sin filtros para ver si el CSS funciona
+  if (data.room === currentRoom) {
+     console.log("CUMPLE SALA - Intentando mostrar...");
+     setTypingUser(data.username);
+  }
+};
+
     const handleUserStopTyping = (data) => {
-      if (data.room === currentRoom) setTypingUser(null);
+      if (data.room === currentRoom && data.senderId !== socket.id) {
+        setTypingUser(null);
+      }
     };
 
     socket.on('load messages', handleLoadMessages);
