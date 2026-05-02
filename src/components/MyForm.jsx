@@ -3,7 +3,7 @@ import { socket } from '../socket';
 
 function MyForm({ currentRoom, username }) {
   const [value, setValue] = useState('');
-//trying to merge
+
   const handleInputChange = (e) => {
     const text = e.target.value;
     setValue(text);

@@ -7,7 +7,6 @@ import Channels from './components/Channels';
 import Chats from './components/Chats';
 import Users from './components/Users';
 import UsernamePrompt from './components/UsernamePrompt';
-//trying to merge
 
 function App() {
   const [currentRoom, setCurrentRoom] = useState('General');
