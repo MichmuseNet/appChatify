@@ -5,7 +5,7 @@ function Channels({ currentRoom, setRoom }) {
     { id: 'random', name: 'Random' },
     { id: 'gaming', name: 'Gaming' }
   ];
-
+//trying to merge 
   return (
     <div className="channels-container">
       <ul

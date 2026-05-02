@@ -4,6 +4,7 @@ import { socket } from '../socket';
 function Chats({ currentRoom }) {
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState(null);
+//trying to merge
 
   useEffect(() => {
     setMessages([]);
